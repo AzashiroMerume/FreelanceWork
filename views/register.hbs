@@ -1,0 +1,92 @@
+<div class="login py-2 my-5 text-center">
+  <form class="form-sign" method="post">
+    <img
+      class="mb-4"
+      src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
+      alt=""
+      width="72"
+      height="72"
+    />
+    <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+    <label for="firstName" class="sr-only my-3">Firstname</label>
+    <input
+      type="text"
+      id="firstName"
+      class="form-control"
+      placeholder="Firstname"
+      name="firstname"
+      required=""
+      autofocus=""
+    />
+    <label for="surName" class="sr-only my-3">Surname</label>
+    <input
+      type="text"
+      id="surName"
+      class="form-control"
+      placeholder="Surname"
+      name="surname"
+      required=""
+      autofocus=""
+    />
+    <label for="inputEmail" class="sr-only my-3">Email address</label>
+    {{#if emailError}}
+      <div class="inputError my-2">
+        <span>This email is already registred! Try to sign in.</span>
+      </div>
+    {{/if}}
+    <input
+      type="email"
+      id="inputEmail"
+      class="form-control"
+      placeholder="Email address"
+      name="email"
+      required=""
+      autofocus=""
+    />
+    <label for="inputPassword" class="sr-only my-3">Password</label>
+    {{#if passwordError}}
+      <div class="inputError my-2">
+        <span>Password must be not less than 6 and not more than 31 symbols</span>
+      </div>
+    {{/if}}
+    <input
+      type="password"
+      id="inputPassword"
+      class="form-control"
+      placeholder="Password"
+      name="password"
+      required=""
+    />
+    <div class="radio-block mt-3">
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userType"
+          value="freelancer"
+          id="flexRadioDefault1"
+        />
+        <label class="form-check-label" for="flexRadioDefault1">
+          I'm Freelancer
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="userType"
+          value="customer"
+          id="flexRadioDefault2"
+          checked
+        />
+        <label class="form-check-label" for="flexRadioDefault2">
+          I'm Customer
+        </label>
+      </div>
+    </div><hr />
+    <button
+      class="btn btn-lg btn-primary btn-block"
+      type="submit"
+    >Register</button>
+  </form>
+</div>

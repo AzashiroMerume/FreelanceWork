@@ -1,0 +1,51 @@
+/*font-family: 'Raleway', sans-serif;*/
+/* 300, 300 italic, regular, 600 */
+
+.special-font-1 {
+    font-family: 'Raleway', sans-serif;
+}
+
+.logo {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+}
+
+.mainContent {
+    height: 400px;
+}
+
+.contentImage {
+    background-image: url('images/main.jpg');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.mainContentImage {
+    background-image: url('images/projectOnline.jpg');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.form-sign {
+    width: 100%;
+    max-width: 630px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+#apply-form-block {
+    display: none;
+    width: 100%;
+    padding: 15px;
+}
+
+
+.inputError {
+    color: red;
+}
+
+.profile {
+    height: 600px;
+}

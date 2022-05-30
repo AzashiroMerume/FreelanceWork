@@ -1,0 +1,28 @@
+<div class="mainContent border-bottom py-2 mt-3">
+  {{! <a href='https://www.freepik.com/vectors/homework'>Homework vector created by jcomp - www.freepik.com</a> }}
+  <div class="row justify-content-center align-items-center h-100">
+    <div class="col-6 text-center">
+      <h1 class="display-5 special-font-1">Post projects or find job!</h1>
+      <p class="lead special-font-1">Time has come. Use it wisely...</p>
+      <a href="/freelancers" class="btn btn-primary mx-2">Find talents</a>
+      <a href="/post" class="btn btn-success mx-2">Post Project</a>
+    </div>
+    <div class="col-6 h-100 mainContentImage" class=""></div>
+  </div>
+</div>
+
+<div class="topFreelancers my-5">
+  <div class="row">
+    {{#if topFreelancers}}
+      {{#each topFreelancers}}
+        <div class="col-4 freelancer p-4 border">
+          <h3 class="special-font-1">{{firstname}} {{surname}}</h3>
+          <p class="lead">Freelancer</p>
+          <p class="lead text-success">Points:
+            {{#if points}}{{points}}{{else}}0{{/if}}</p>
+          <button class="btn btn-primary">Check</button>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
+</div>

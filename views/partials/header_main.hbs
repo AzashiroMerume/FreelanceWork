@@ -1,0 +1,41 @@
+<header class="shadow-sm border-bottom p-3">
+    <div class="container header_wrap">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-4">
+                <h3 class="logo">
+                    <a href="/main" class="text-decoration-none mx-3 text-dark header_links">FreelanceWork</a>
+                </h3>
+            </div>
+            <div class="col-4 text-start">
+                {{#if isMain}}
+                <a href="/main" class="text-decoration-none mx-3 header_links text-primary">Main</a>
+                {{else}}
+                <a href="/main" class="text-decoration-none mx-3 text-dark header_links">Main</a>
+                {{/if}}
+                
+                {{#if isJobs}}
+                <a href="/jobs" class="text-decoration-none mx-3 text-primary header_links">Jobs</a>
+                {{else}}
+                <a href="/jobs" class="text-decoration-none mx-3 text-dark header_links">Jobs</a>
+                {{/if}}
+
+                {{#if isFreelancers}}
+                <a href="/freelancers" class="text-decoration-none mx-3 text-primary header_links">Freelancers</a>
+                {{else}}
+                <a href="/freelancers" class="text-decoration-none mx-3 text-dark header_links">Freelancers</a>
+                {{/if}}
+
+
+                {{#if isHelp}}
+                <a href="/help" class="text-decoration-none mx-3 text-primary header_links">Help</a>
+                {{else}}
+                <a href="/help" class="text-decoration-none mx-3 text-secondary header_links">Help</a>
+                {{/if}}
+            </div>
+            <div class="col-4 text-center">
+                <a href='/post' class='btn btn-success mx-2'>Post project</a>
+                <a href='/profile' class='btn btn-outline-primary mx-2'>Profile</a>
+            </div>
+        </div>
+    </div>
+</header>

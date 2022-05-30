@@ -1,0 +1,31 @@
+<div class="p-3 my-3 border rounded shadow-sm">
+  {{#if job}}
+    <div class="title">
+      <h2>{{job.title}}</h2>
+    </div>
+    <div class="inf mt-2">
+      <p class="lead"><span class="font-monospace text-success">Description:</span> {{job.description}}</p>
+      <p>
+        {{#each job.categories}}
+          <a href='./category/{{this}}'' class="mx-2">{{this}}</a>
+        {{/each}}</p>
+      <p>Author: <a href="../profile/{{job.userID}}">{{job.username}}</a></p>
+    </div>
+    {{#if isFreelancer}}
+      <div class="text-center my-2" id="apply">
+        <button onclick="showApplyForm()" class="btn btn-success">Apply</button>
+      </div>
+      <div id="apply-form-block" class="border-top">
+        <form method="post">
+          <div class="form-group">
+            <label for="message" class="sr-only h5 my-3">Message:</label>
+            <textarea type="text" id="message" class="form-control mb-3" placeholder="Your message" name="message"></textarea>
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    {{/if}}
+  {{else}}
+    <p>No Information</p>
+  {{/if}}
+</div>

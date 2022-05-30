@@ -1,0 +1,49 @@
+<div class="p-3 my-3 border rounded shadow-sm">
+  <div class="border-bottom">
+    <h2 class="special-font-1">Freelancers</h2>
+  </div>
+  <div class="search my-3 border-bottom">
+    <form method="post">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          name="search"
+          placeholder="freelancer name"
+          aria-label="freelancer name"
+          aria-describedby="basic-addon2"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Button</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="d-flex flex-column">
+    <div class="results">
+      {{#if founded}}
+        <h3 class="text-secondary">Results:</h3>
+        {{#each founded}}
+          <div class="result">
+            <h3 class="special-font-1">{{firstname}} {{surname}}</h3>
+            <p class="lead">Freelancer</p>
+            <p class="lead text-success">Points:
+              {{#if points}}{{points}}{{else}}0{{/if}}</p>
+            <button class="btn btn-primary">Check</button>
+          </div>
+        {{/each}}
+      {{/if}}
+    </div>
+    {{#if freelancers}}
+      {{#each freelancers}}
+        <div class="freelancer p-4 border">
+          <h3 class="special-font-1">{{firstname}} {{surname}}</h3>
+          <p class="lead">Freelancer</p>
+          <p class="lead text-success">Points:
+            {{#if points}}{{points}}{{else}}0{{/if}}</p>
+          <button class="btn btn-primary">Check</button>
+        </div>
+      {{/each}}
+    {{/if}}
+  </div>
+</div>

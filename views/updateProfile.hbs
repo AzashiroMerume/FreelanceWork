@@ -1,0 +1,62 @@
+<div class="updateprofile py-2 my-5 text-center">
+  <form class="form-update" method="post">
+    <h1 class="h3 special-font-1 mb-3 font-weight-normal">Update profile</h1><hr
+      class="featurette-divider"
+    />
+    <div class="text-start">
+      <label
+        for="firstname"
+        class="sr-only h4 special-font-1 my-3"
+      >Firstname</label>
+      <input
+        type="text"
+        id="firstname"
+        class="form-control"
+        placeholder="Firstname"
+        name="firstname"
+      />
+      <label
+        for="surname"
+        class="sr-only h4 special-font-1 my-3"
+      >Surname</label>
+      <input
+        type="text"
+        id="surname"
+        class="form-control"
+        placeholder="Surname"
+        name="surname"
+      />
+      <label for="bio" class="sr-only h4 special-font-1 my-3">Bio</label>
+      <textarea
+        type="text"
+        id="bio"
+        class="form-control"
+        placeholder="Bio"
+        name="bio"
+      ></textarea>
+      {{#if isFreelancer}}
+        <label
+          for="portfolio"
+          class="sr-only h4 special-font-1 my-3"
+        >Portfolio</label>
+        <input
+          type="text"
+          id="portfolio"
+          class="form-control"
+          placeholder="Portfolio"
+          name="portfolio"
+        />
+      {{/if}}
+      <label for="linkedin" class="sr-only h4 special-font-1 my-3">Link to
+        Linkedin</label>
+      <input
+        type="text"
+        id="linkedin"
+        class="form-control"
+        placeholder="Link to Linkedin"
+        name="linkedin"
+      />
+      <button class="btn btn-primary mt-3" type="submit">Update</button>
+    </div>
+  </form>
+</div>

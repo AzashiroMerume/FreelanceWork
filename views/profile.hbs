@@ -1,0 +1,102 @@
+<div class="my-3 p-4 profile border rounded shadow">
+  <div class="row h-100">
+    <div class="col-4 px-4 border-end">
+      <h4 class="special-font-1 display-5">{{username}}</h4>
+      <h6 class="text-success font-monospace">Role:
+        {{#if isFreelancer}}Freelancer{{else}}Customer{{/if}}</h6><hr />
+      {{#if isMe}}
+        <div class="special-btn d-flex flex-column">
+          {{! <a href="/last" class="btn"></a> }}
+          <a href="/updateprofile" class="btn btn-primary mt-2">Update Profile</a>
+          <a href="/logout" class="btn btn-outline-danger mt-3">Log out</a>
+        </div>
+      {{/if}}
+    </div>
+    <div class="col-8 px-4">
+      {{#if isCustomer}}
+        {{#if isMe}}
+          <div class="bio my-2">
+            <h6 class="font-monospace">My bio:</h6>
+            {{#if user.bio}}
+              <p class="lead">{{user.bio}}</p>
+            {{else}}
+              <p class="lead">No bio</p>
+            {{/if}}
+          </div><hr />
+          <div class="portfolio">
+            <h6 class="font-monospace">My last requests</h6>
+            {{#if requests}}
+              {{#each requests}}
+                <div class="job p-3">
+                  <h3 class="special-font-1">{{title}}</h3>
+                  <p class="lead">{{shortDescription}}</p>
+                  {{#each categories}}
+                    <a href="{{this}}" class="mx-2">{{this}}</a>
+                  {{/each}}
+                  <div class="mt-3">
+                    <a href="../{{_id}}" class="btn btn-primary">Read more</a>
+                  </div><hr />
+                </div>
+              {{/each}}
+            {{else}}
+              <p class="lead">No last requests</p>
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="bio">
+            <h6 class="font-monospace">Bio:</h6>
+            {{#if user.bio}}
+              <p class="lead">{{user.bio}}</p>
+            {{else}}
+              <p class="lead">No bio</p>
+            {{/if}}
+          </div><hr />
+          <div class="portfolio">
+            <h6 class="font-monospace">Last requests</h6>
+            {{#if user.portfolio}}
+              <p class="lead">{{user.portfolio}}</p>
+            {{else}}
+              <p class="lead">No last requests</p>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{else}}
+        {{#if isMe}}
+          <div class="bio">
+            <h6 class="font-monospace">My bio:</h6>
+            {{#if user.bio}}
+              <p class="lead">{{user.bio}}</p>
+            {{else}}
+              <p class="lead">No bio</p>
+            {{/if}}
+          </div><hr />
+          <div class="portfolio">
+            <h6 class="font-monospace">My portfolio:</h6>
+            {{#if user.portfolio}}
+              <p class="lead">{{user.portfolio}}</p>
+            {{else}}
+              <p class="lead">No portfolio</p>
+            {{/if}}
+          </div>
+        {{else}}
+          <div class="bio">
+            <h6 class="font-monospace">Bio:</h6>
+            {{#if user.bio}}
+              <p class="lead">{{user.bio}}</p>
+            {{else}}
+              <p class="lead">No bio</p>
+            {{/if}}
+          </div><hr />
+          <div class="portfolio">
+            <h6 class="font-monospace">Portfolio:</h6>
+            {{#if user.bio}}
+              <p class="lead">{{user.portfolio}}</p>
+            {{else}}
+              <p class="lead">No portfolio</p>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</div>
