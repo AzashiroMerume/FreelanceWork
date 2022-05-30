@@ -30,7 +30,9 @@ router.get('/main', async (req, res) => {
 		return res.redirect('/login')
 	}
 
-	let topFreelancers = await UserModel.find({userType: 'freelancer'}).lean().sort({
+	let topFreelancers = await UserModel.find({
+		userType: 'freelancer'
+	}).lean().sort({
 		points: -1
 	}).limit(6)
 
@@ -76,10 +78,13 @@ router.get('/jobs/:id', async (req, res) => {
 		_id: id
 	}).lean()
 
+	let comments = await CommentModel.find({postID: id}).lean()
+
 	if (req.session.userType === 'freelancer') {
 		res.render('job_inf', {
 			title: 'FreelanceWork - job',
 			isFreelancer: true,
+			comments: comments,
 			job: data,
 			layout: 'main'
 		})
@@ -87,6 +92,7 @@ router.get('/jobs/:id', async (req, res) => {
 		res.render('job_inf', {
 			title: 'FreelanceWork - job',
 			job: data,
+			comments: comments,
 			layout: 'main'
 		})
 	}
@@ -192,7 +198,7 @@ router.get('/post', (req, res) => {
 		return res.redirect('/login')
 	}
 
-	if(req.session.userType === 'freelancer') {
+	if (req.session.userType === 'freelancer') {
 		return res.redirect('/jobs')
 	}
 
@@ -222,6 +228,68 @@ router.post('/post', async (req, res) => {
 	res.redirect('/jobs')
 })
 
+router.get('/updatepost/:id', async (req, res) => {
+
+	if (!req.session.isAuthorized) {
+		return res.redirect('/login')
+	}
+
+	let postID = req.params.id
+
+	if (!mongoose.Types.ObjectId.isValid(postID)) {
+		return res.redirect('/404')
+	}
+
+	let post = await PostModel.findById(postID)
+
+	if (post) {
+		res.render('updatePost', {
+			title: 'FreelanceWork - update post',
+			layout: 'main'
+		})
+	} else {
+		return res.redirect('/404')
+	}
+
+})
+
+router.post('/updatepost/:id', async (req, res) => {
+	let userID = req.session.userID
+	let title = req.body.title
+	let shortDescription = req.body.shortDescription
+	let categories = req.body.categories
+	let description = req.body.description
+
+	await PostModel.findByIdAndUpdate(req.params.id, {
+		userID: userID,
+		username: req.session.username,
+		title: title,
+		shortDescription: shortDescription,
+		categories: categories,
+		description: description,
+	})
+
+	res.redirect('/profile')
+})
+
+router.post('/deletepost/:id', async (req, res) => {
+	let postID = req.params.id
+
+	if (!mongoose.Types.ObjectId.isValid(postID)) {
+		console.log('mistake')
+		return res.redirect('/404')
+	}
+
+	let post = await PostModel.findByIdAndDelete(postID)
+
+	if (post) {
+		return res.redirect('/profile')
+	} else {
+		console.log('mistake')
+		return res.redirect('/404')
+	}
+})
+
 router.get('/profile', async (req, res) => {
 
 	if (!req.session.isAuthorized) {
@@ -242,7 +310,11 @@ router.get('/profile', async (req, res) => {
 			layout: 'main'
 		})
 	} else {
-		let customerRequests = await PostModel.find({userID: req.session.userID}).lean().sort('desk')
+		let customerRequests = await PostModel.find({
+			userID: req.session.userID
+		}).lean().sort({
+			_id: -1
+		})
 		res.render('profile', {
 			title: 'FreelanceWork - my profile',
 			isMe: true,
@@ -285,7 +357,11 @@ router.get('/profile/:id', async (req, res) => {
 			layout: 'main'
 		})
 	} else {
-		let customerRequests = await PostModel.find({userID: userID}).sort('desc')
+		let customerRequests = await PostModel.find({
+			userID: userID
+		}).sort({
+			_id: -1
+		})
 		res.render('profile', {
 			title: 'FreelanceWork - ' + username,
 			isMe: false,
@@ -307,7 +383,7 @@ router.get('/updateprofile', (req, res) => {
 
 	let isFreelancer
 
-	if(req.session.userType === 'freelancer') {
+	if (req.session.userType === 'freelancer') {
 		isFreelancer = true
 	} else {
 		isFreelancer = false
@@ -326,7 +402,7 @@ router.post('/updateprofile', async (req, res) => {
 	let portfolio = req.body.portfolio
 	let linkedin = req.body.linkedin
 
-	let userUpdate = await UserModel.findByIdAndUpdate(req.session.userID, {
+	await UserModel.findByIdAndUpdate(req.session.userID, {
 		firstname: firstname,
 		surname: surname,
 		bio: bio,

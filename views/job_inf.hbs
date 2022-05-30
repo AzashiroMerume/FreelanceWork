@@ -7,9 +7,22 @@
       <p class="lead"><span class="font-monospace text-success">Description:</span> {{job.description}}</p>
       <p>
         {{#each job.categories}}
-          <a href='./category/{{this}}'' class="mx-2">{{this}}</a>
+          <a href='./category/{{this}}' class="mx-2">{{this}}</a>
         {{/each}}</p>
       <p>Author: <a href="../profile/{{job.userID}}">{{job.username}}</a></p>
+    </div><hr>
+    <div class="comments my-3">
+      <h3 class="font-monospace">Comments</h3>
+      {{#if comments}}
+        {{#each comments}}
+          <div class="my-2 px-2 border-bottom">
+            <p class="font-monospace"><span class="text-success">Author:</span> <a href="../profile/{{userID}}">{{username}}</a></p>
+            <p class="lead"><span class="text-success">Message:</span> {{message}}</p>
+          </div>
+        {{/each}}
+      {{else}}
+        <p class="lead">No comments yet</p>
+      {{/if}}
     </div>
     {{#if isFreelancer}}
       <div class="text-center my-2" id="apply">

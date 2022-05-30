@@ -6,7 +6,6 @@
         {{#if isFreelancer}}Freelancer{{else}}Customer{{/if}}</h6><hr />
       {{#if isMe}}
         <div class="special-btn d-flex flex-column">
-          {{! <a href="/last" class="btn"></a> }}
           <a href="/updateprofile" class="btn btn-primary mt-2">Update Profile</a>
           <a href="/logout" class="btn btn-outline-danger mt-3">Log out</a>
         </div>
@@ -33,10 +32,12 @@
                   {{#each categories}}
                     <a href="jobs/category/{{this}}" class="mx-2">{{this}}</a>
                   {{/each}}
-                  <div class="mt-5">
+                  <div class="mt-5 d-flex">
                     <a href="jobs/{{_id}}" class="btn btn-success mx-2">Read more</a>
                     <a href="updatepost/{{_id}}" class="btn btn-primary mx-2">Update post</a>
-                    <a href="deletepost/{{_id}}" class="btn btn-danger mx-2">Delete post</a>
+                    <form action="deletepost/{{_id}}" method="post">
+                    <button class="btn btn-danger mx-2">Delete post</button>
+                    </form>
                   </div><hr />
                 </div>
               {{/each}}
