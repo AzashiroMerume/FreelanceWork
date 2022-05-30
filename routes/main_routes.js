@@ -242,7 +242,7 @@ router.get('/profile', async (req, res) => {
 			layout: 'main'
 		})
 	} else {
-		let customerRequests = await PostModel.find({userID: req.session.userID}).sort(-1)
+		let customerRequests = await PostModel.find({userID: req.session.userID}).lean().sort('desk')
 		res.render('profile', {
 			title: 'FreelanceWork - my profile',
 			isMe: true,
@@ -274,6 +274,7 @@ router.get('/profile/:id', async (req, res) => {
 	let data = await UserModel.findById(userID).lean()
 	let username = data.firstname + ' ' + data.surname
 
+
 	if (data.userType === 'freelancer') {
 		res.render('profile', {
 			title: 'FreelanceWork - ' + username,
@@ -284,12 +285,14 @@ router.get('/profile/:id', async (req, res) => {
 			layout: 'main'
 		})
 	} else {
+		let customerRequests = await PostModel.find({userID: userID}).sort('desc')
 		res.render('profile', {
 			title: 'FreelanceWork - ' + username,
 			isMe: false,
 			isCustomer: true,
 			username: username,
 			user: data,
+			requests: customerRequests,
 			layout: 'main'
 		})
 	}
