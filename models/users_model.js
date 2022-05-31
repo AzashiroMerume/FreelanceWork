@@ -21,6 +21,10 @@ const schema = new Schema({
         type: String,
         required: true,
     },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
     bio: {
         type: String,
         default: '',

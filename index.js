@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const path = require('path')
 const bodyParser = require('body-parser')
+const adminRoutes = require('./routes/admin_routes')
 const mainRoutes = require('./routes/main_routes')
 const apiRoutes = require('./routes/api_routes')
 const config = require('./config/config').development
@@ -29,8 +30,11 @@ app.use(session({
     saveUninitialized: true
 }))
 
+app.use(adminRoutes)
 app.use(mainRoutes)
 app.use(apiRoutes)
+
+//redirect to 404 if non-existing adress
 app.use((req, res, next) => {
 	res.redirect('/404')
 })

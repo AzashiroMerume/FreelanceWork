@@ -4,20 +4,39 @@
       <h2>{{job.title}}</h2>
     </div>
     <div class="inf mt-2">
-      <p class="lead"><span class="font-monospace text-success">Description:</span> {{job.description}}</p>
+      <p class="lead"><span
+          class="font-monospace text-success"
+        >Description:</span>
+        {{job.description}}</p>
       <p>
         {{#each job.categories}}
-          <a href='./category/{{this}}' class="mx-2">{{this}}</a>
+          <a href="./category/{{this}}" class="mx-2">{{this}}</a>
         {{/each}}</p>
       <p>Author: <a href="../profile/{{job.userID}}">{{job.username}}</a></p>
-    </div><hr>
+    </div><hr />
     <div class="comments my-3">
       <h3 class="font-monospace">Comments</h3>
       {{#if comments}}
         {{#each comments}}
-          <div class="my-2 px-2 border-bottom">
-            <p class="font-monospace"><span class="text-success">Author:</span> <a href="../profile/{{userID}}">{{username}}</a></p>
-            <p class="lead"><span class="text-success">Message:</span> {{message}}</p>
+          <div class="my-2 px-2 py-3 border-bottom">
+            <p class="font-monospace"><span class="">Author:</span>
+              <a href="../profile/{{userID}}">{{username}}</a></p>
+            <p class="lead"><span class="">Message:</span>
+              {{message}}</p>
+            {{#if ../isMe}}
+              {{#if authorComments}}
+                {{#each authorComments}}
+                  <div class="last-answers border p-2">
+                    <p class="lead">Author comments: {{this}}</p>
+                  </div>
+                {{/each}}
+              {{/if}}
+            <form method="post" class="mt-4 border-top py-4">
+              <h4>Answer</h4>
+              <textarea type="text" name="answer" class="form-control my-3"></textarea>
+              <button class="btn btn-primary" name="comment" value="{{_id}}" type="submit">Answer</button>
+            </form>
+            {{/if}}
           </div>
         {{/each}}
       {{else}}
@@ -32,7 +51,13 @@
         <form method="post">
           <div class="form-group">
             <label for="message" class="sr-only h5 my-3">Message:</label>
-            <textarea type="text" id="message" class="form-control mb-3" placeholder="Your message" name="message"></textarea>
+            <textarea
+              type="text"
+              id="message"
+              class="form-control mb-3"
+              placeholder="Your message"
+              name="message"
+            ></textarea>
             <button class="btn btn-primary" type="submit">Submit</button>
           </div>
         </form>

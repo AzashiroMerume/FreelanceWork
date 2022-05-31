@@ -17,7 +17,10 @@ const schema = new Schema({
     message: {
         type: String,
         required: true,
-    }
+    },
+    authorComments: [{
+        type: String
+    }]
 })
 
 module.exports = model('Coments', schema)

@@ -1,6 +1,7 @@
 const {
 	Router
 } = require('express')
+const https = require('https');
 const UserModel = require('../models/users_model')
 const PostModel = require('../models/posts_model')
 const CommentModel = require('../models/comments_model')
@@ -78,7 +79,16 @@ router.get('/jobs/:id', async (req, res) => {
 		_id: id
 	}).lean()
 
-	let comments = await CommentModel.find({postID: id}).lean()
+	let comments = await CommentModel.find({
+		postID: id
+	}).lean()
+
+	let isMe
+	if (data.userID == req.session.userID) {
+		isMe = true
+	} else {
+		isMe = false
+	}
 
 	if (req.session.userType === 'freelancer') {
 		res.render('job_inf', {
@@ -92,6 +102,8 @@ router.get('/jobs/:id', async (req, res) => {
 		res.render('job_inf', {
 			title: 'FreelanceWork - job',
 			job: data,
+			isCustomer: true,
+			isMe: isMe,
 			comments: comments,
 			layout: 'main'
 		})
@@ -100,16 +112,22 @@ router.get('/jobs/:id', async (req, res) => {
 })
 
 router.post('/jobs/:id', async (req, res) => {
-	let message = req.body.message
+	if (req.body.comment) {
+		await CommentModel.findByIdAndUpdate(req.body.comment, {
+			authorComments: req.body.answer
+		})
+	} else {
+		let message = req.body.message
 
-	const comment = new CommentModel({
-		postID: req.params.id,
-		userID: req.session.userID,
-		username: req.session.username,
-		message: message
-	})
+		const comment = new CommentModel({
+			postID: req.params.id,
+			userID: req.session.userID,
+			username: req.session.username,
+			message: message
+		})
 
-	await comment.save()
+		await comment.save()
+	}
 	res.redirect('/profile')
 })
 
@@ -168,8 +186,6 @@ router.post('/freelancers', async (req, res) => {
 			surname: searched
 		}]
 	}).where('userType').equals('freelancer')
-
-	console.log(founded)
 
 	res.render('freelancers', {
 		title: 'FreelanceWork - all freelancers',
@@ -296,6 +312,20 @@ router.get('/profile', async (req, res) => {
 		return res.redirect('/login')
 	}
 
+	// let userIP = req.socket.remoteAddress
+	// let urlToApi = `http://api.weatherapi.com/v1/current.json?key=cfa1e38193dc4a14aa5114538221904&q=${userIP}`
+
+	// https.get(urlToApi, function (response) {
+	// 	let data = [];
+	// 	response.on("data", (chunck) => {
+	// 		data.push(chunck);
+	// 	});
+	// 	response.on("end", () => {
+	// 		let weather = JSON.parse(Buffer.concat(data).toString());
+	// 		console.log(weather)
+	// 	});
+	// });
+
 	let userID = req.session.userID
 
 	let data = await UserModel.findById(userID).lean()
@@ -375,6 +405,34 @@ router.get('/profile/:id', async (req, res) => {
 
 })
 
+router.get('/myprojects', async (req, res) => {
+
+	if (!req.session.isAuthorized) {
+		return res.redirect('/login')
+	}
+
+	let projects = await PostModel.find({
+		userID: req.session.userID
+	}).lean().sort({
+		_id: -1
+	})
+
+	if (req.session.userType === 'freelancer') {
+		res.render('projects', {
+			title: 'FreelanceWork - my projects',
+			isCustomer: false,
+			layout: 'main'
+		})
+	} else {
+		res.render('projects', {
+			title: 'FreelanceWork - my projects',
+			projects: projects,
+			isCustomer: true,
+			layout: 'main'
+		})
+	}
+})
+
 router.get('/updateprofile', (req, res) => {
 
 	if (!req.session.isAuthorized) {
@@ -433,7 +491,10 @@ router.post('/login', async (req, res) => {
 		email: email
 	});
 
-	if (login !== null && Bcrypt.compareSync(password, login.password)) {
+	if(login !== null && Bcrypt.compareSync(password, login.password) && login.isAdmin === true) {
+		req.session.isAdmin = true
+		res.redirect('/admin')
+	} else if (login !== null && Bcrypt.compareSync(password, login.password)) {
 		req.session.isAuthorized = true
 		req.session.username = login.firstname + ' ' + login.surname
 		req.session.userType = login.userType
